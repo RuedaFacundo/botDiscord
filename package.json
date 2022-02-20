@@ -1,0 +1,22 @@
+{
+  "name": "botdiscord",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Bot/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RuedaFacundo/botDiscord.git"
+  },
+  "author": "FacuRueda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RuedaFacundo/botDiscord/issues"
+  },
+  "homepage": "https://github.com/RuedaFacundo/botDiscord#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1"
+  }
+}
