@@ -1,7 +1,8 @@
 const Discord = require('discord.js')
 const fetch = require ('node-fetch')
+var XMLHttpRequest = require('xhr2')
 const client = new Discord.Client();
-client.login('OTQ0OTkwNTExMDkyMDg4ODUz.YhJo_g.ggdEHmpLd2gZW6KZCLzbUlHmyX0')
+client.login('')
 
 const mati = "870678841687945257";
 const chapu = "392482037539536907";
@@ -105,7 +106,6 @@ client.on("message", (msg)=>{
             promesa.then((res) =>{
                 return res.json();
             }).then((json)=>{
-                console.log(json)
                 var current = json.current;
                 var location = json.location;
                 let ciudad = city[1] + ", " + location.region + ", " + location.country;
@@ -123,6 +123,37 @@ client.on("message", (msg)=>{
                 msg.reply(weatherinfo);
             }).catch(() => msg.reply("Ingrese una ciudad valida 😩"));
         }        
+
+        /* Consulta Crypto */
+        if (message.includes("!crypto")){
+            let msj = message.toUpperCase();
+            let crypto = msj.split("!CRYPTO ");
+            var burl = "https://api.binance.com";
+            var query = '/api/v1/ticker/24hr';
+            query += '?symbol=' + crypto[1];
+            var url = burl + query;
+            var ourRequest = new XMLHttpRequest();
+            ourRequest.open('GET',url,true);
+            ourRequest.responseType = 'json';
+            ourRequest.onload = function(){
+                var precio = ourRequest.response.lastPrice;
+                var highPrice = ourRequest.response.highPrice;
+                var lowPrice = ourRequest.response.lowPrice;
+                if(ourRequest.response.msg === undefined){
+                    const cryptoInfo = new Discord.MessageEmbed()
+                    .setAuthor("Valor de la Crypto")
+                    .setColor("RANDOM")
+                    .addField("Crypto: ", `${ourRequest.response.symbol}`, true)
+                    .addField("Precio: ", `$${precio.substring(0, precio.indexOf(".") + 3)}`, true)
+                    .addField("Precio Max: ", `$${highPrice.substring(0, precio.indexOf(".") + 3)}`, true)
+                    .addField("Precio Min: ", `$${lowPrice.substring(0, precio.indexOf(".") + 3)}`, true)
+                    msg.reply(cryptoInfo);
+                } else {
+                    msg.reply("Ingrese un valor correcto. 😩 Ej. BTCUSDT");
+                }
+            }
+            ourRequest.send();
+        }
     }
 })
 
