@@ -1,6 +1,7 @@
 const Discord = require('discord.js')
+const fetch = require ('node-fetch')
 const client = new Discord.Client();
-client.login('OTQ0OTkwNTExMDkyMDg4ODUz.YhJo_g.XqD7BzWMBwZOd-RRqxJaa8D9eas')
+client.login('OTQ0OTkwNTExMDkyMDg4ODUz.YhJo_g.ggdEHmpLd2gZW6KZCLzbUlHmyX0')
 
 const mati = "870678841687945257";
 const chapu = "392482037539536907";
@@ -50,6 +51,78 @@ client.on("message", (msg)=>{
         if (message.includes("hijo de puta") || message.includes("concha de tu madre") || message.includes("puto")){
             msg.reply("Mi rey! Este es un canal chill. Por favor, no insultes ni te tiltees!");
         }
+
+        /* Mensaje de birra */
+        if (message.includes("birra") || message.includes("cerveza")){
+            msg.reply("Se sale hoy? Me prendo rey");
+        } 
+
+        /* Mensaje de tilteo */
+        if (message.includes("te tilteaste fitu")){
+            msg.reply("Seee toy re tilteado, este juego de mierda");
+        }
+
+        /* Mensaje de programador */
+        if (message.includes("programado")){
+            msg.reply("Estoy medio limitado todavia, vite como e");
+        }
+
+        /* Mensaje de cumbia */
+        if (message.includes("cumbia")){
+            msg.reply("Cumbia 420 pa lo negroooo");
+        }
+
+        /* Mensaje de musica */
+        if (message.includes("yendo")){
+            msg.reply("Yendo no, llegando");
+        }
+
+        /* Mensaje de tethan */
+        if (message.includes("tethan")){
+            msg.reply("Como extraño las rutinas del tethan");
+        }
+
+        /* Mensaje de tanque */
+        if (message.includes("tanque")){
+            msg.reply("Banco a los tanque que dejan la vida por el equipo");
+        }
+
+        /* Mensaje de stumble */
+        if (message.includes("stumble")){
+            msg.reply("Sale un stumble?");
+        }
+
+        /* Mensaje de funciones */
+        if (message.includes("funciones") && msg.author.id === mati){
+            msg.reply("Cuando quieras te enseño arrow function rey");
+        }
+
+        /* Consulta del clima */
+        if (message.includes("!clima")){
+            let msj = message.toUpperCase();
+            let city = msj.split("!CLIMA ");
+            let promesa = fetch('http://api.weatherstack.com/current?access_key=87780e795c6656a52e8a4b7afd0648fb&query='+city[1]);
+            promesa.then((res) =>{
+                return res.json();
+            }).then((json)=>{
+                console.log(json)
+                var current = json.current;
+                var location = json.location;
+                let ciudad = city[1] + ", " + location.region + ", " + location.country;
+        
+                const weatherinfo = new Discord.MessageEmbed()
+                .setAuthor(ciudad)
+                .setColor("RANDOM")
+                .setImage(`${current.weather_icons}`)
+                .addField("Fecha y hora: ", `${location.localtime}`, true)
+                .addField("Temperatura: ", `${current.temperature}° C`, true)
+                .addField("Viento", `${current.wind_speed} km`, true)
+                .addField("Humedad", `${current.humidity}%`, true)
+                .addField("Prob. Precipitacion", `${current.precip}%`, true)
+
+                msg.reply(weatherinfo);
+            }).catch(() => msg.reply("Ingrese una ciudad valida 😩"));
+        }        
     }
 })
 
